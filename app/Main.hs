@@ -8,19 +8,41 @@ import Codec.Compression.GZip qualified as GZip
 import Data.ByteString.Lazy qualified as BS
 import Prelude
 
-filterEntry :: (Tar.Entry -> Bool) -> [Tar.Entry] -> [Tar.Entry]
-filterEntry pred list = list
+-- | This is like the standard 'foldr' function on lists, but for 'Entries'.
+-- Compared to 'foldEntries' it skips failures.
+foldEntriesIgnoreFailure :: (Tar.Entry -> a -> a) -> a -> Tar.Entries e -> a
+foldEntriesIgnoreFailure next done = fold
+  where
+    fold (Tar.Next e es) = next e (fold es)
+    fold Tar.Done = done
+    fold (Tar.Fail _) = done
 
-foldEntryToPath :: Tar.Entry -> [String] -> [String]
-foldEntryToPath entry list = list ++ [show $ Tar.entryPath entry]
+-- filterEntriesIgnoreFailure :: (Tar.Entry -> Bool) -> [Tar.Entry] -> [Tar.Entry]
+-- filterEntriesIgnoreFailure p (x : xs) = foldr (\y xs -> if p y then y : xs else xs) [] (x : xs)
 
--- Converts TAR errors to a string.
-entryFailMapper :: Tar.FormatError -> [String]
-entryFailMapper _ = ["Invalid Tar Entry"]
+-- foldEntryToPath :: Tar.Entry -> [String] -> [String]
+-- foldEntryToPath entry list = list ++ [show $ Tar.entryPath entry]
+
+entryToPath :: Tar.Entry -> String
+entryToPath entry = show $ Tar.entryPath entry
+
+-- entryToPathDataTuple :: Tar.Entry -> (String, String)
+-- entryToPathDataTuple entry = (show $ Tar.entryPath entry, Tar.entryContent entry)
+
+entryIsLocationData :: Tar.Entry -> Bool
+entryIsLocationData e = case Tar.entryContent e of
+  Tar.NormalFile _ _ -> True
+  _ -> False
 
 main :: IO ()
 main = do
   fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
   let entries = Tar.read fileContent
-  let entryPaths = Tar.foldEntries foldEntryToPath [] entryFailMapper entries
-  print entryPaths
+  let entryList = foldEntriesIgnoreFailure (:) [] entries
+  -- let entryPaths = foldEntriesIgnoreFailure foldEntryToPath [] entries
+  -- let mappedEntryList = map entryToPath entryList
+  -- let mappedEntryList = map entryToPathDataTuple entryList
+  let filteredEntryList = map entryToPath (filter entryIsLocationData entryList)
+  print filteredEntryList
+
+-- print entryPaths
