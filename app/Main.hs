@@ -8,6 +8,9 @@ import Codec.Compression.GZip qualified as GZip
 import Data.ByteString.Lazy qualified as BS
 import Prelude
 
+filterEntry :: (Tar.Entry -> Bool) -> [Tar.Entry] -> [Tar.Entry]
+filterEntry pred list = list
+
 foldEntryToPath :: Tar.Entry -> [String] -> [String]
 foldEntryToPath entry list = list ++ [show $ Tar.entryPath entry]
 
