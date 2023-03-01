@@ -37,6 +37,7 @@ executable location-history-json-converter-hs
         -Wno-safe
         -Wno-missing-local-signatures
         -Wno-monomorphism-restriction
+        -O2
 
     main-is:          Main.hs
 

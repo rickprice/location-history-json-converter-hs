@@ -17,7 +17,7 @@ entryFailMapper _ = ["Invalid Tar Entry"]
 
 main :: IO ()
 main = do
-  fileContent <- GZip.decompress <$> BS.readFile "foo.tar.gz"
+  fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
   let entries = Tar.read fileContent
   let entryPaths = Tar.foldEntries foldEntryToPath [] entryFailMapper entries
   print entryPaths
