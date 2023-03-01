@@ -2,23 +2,22 @@
 
 module Main (main) where
 
-import Database.HDBC
-import Database.HDBC.Sqlite3
-import Prelude
+import qualified Codec.Archive.Tar as Tar
+import qualified Codec.Compression.GZip as GZip
+import qualified Data.ByteString.Lazy as BS
 
--- add :: Num a => a -> a -> a
--- add a b = a + b
+foldEntryToPath :: Tar.Entry -> [String] -> [String]
+foldEntryToPath entry list = list ++ [show $ Tar.entryPath entry]
+
+-- Converts TAR errors to a string.
+entryFailMapper :: String -> [String]
+entryFailMapper err = [err]
 
 main :: IO ()
-main =
-  do
-    putStrLn "About to open sqlite database test1.db"
-    conn <- connectSqlite3 "test1.db"
-    putStrLn "Creating a table"
-    _ <- run conn "CREATE TABLE IF NOT EXISTS test (id INTEGER NOT NULL, desc VARCHAR(80))" []
-    putStrLn "Inserting data"
-    _ <- run conn "INSERT INTO test (id) VALUES (?)" [toSql (1 :: Int)]
-    putStrLn "Commiting"
-    commit conn
-    putStrLn "Disconnecting"
-    disconnect conn
+main = do
+  fileContent <- fmap GZip.decompress $ BS.readFile "foo.tar.gz"
+  entries <- fmap Tar.read fileContent :: Tar.Entries
+  -- Here I don't know how to correctly apply fmap
+  entryPaths <- Tar.foldEntries foldEntryToPath [] entryFailMapper entries :: [String]
+  -- This should print ["a.txt", "b.txt", "c.txt"]
+  print entryPaths
