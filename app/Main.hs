@@ -4,6 +4,7 @@
 module Main (main) where
 
 import Codec.Archive.Tar qualified as Tar
+-- import Codec.Archive.Tar.Entry qualified as Tar
 import Codec.Compression.GZip qualified as GZip
 import Data.ByteString.Lazy qualified as BS
 import Prelude
@@ -29,9 +30,12 @@ entryToPath entry = show $ Tar.entryPath entry
 -- entryToPathDataTuple :: Tar.Entry -> (String, String)
 -- entryToPathDataTuple entry = (show $ Tar.entryPath entry, Tar.entryContent entry)
 
+doesPathMatch :: String -> Bool
+doesPathMatch p = "Takeout/Location History/Records.json" == p
+
 entryIsLocationData :: Tar.Entry -> Bool
 entryIsLocationData e = case Tar.entryContent e of
-  Tar.NormalFile _ _ -> True
+  Tar.NormalFile _ _ -> doesPathMatch (Tar.entryPath e)
   _ -> False
 
 main :: IO ()
