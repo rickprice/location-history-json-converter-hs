@@ -1,23 +1,23 @@
+{-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE Unsafe #-}
 
 module Main (main) where
 
-import qualified Codec.Archive.Tar as Tar
-import qualified Codec.Compression.GZip as GZip
-import qualified Data.ByteString.Lazy as BS
+import Codec.Archive.Tar qualified as Tar
+import Codec.Compression.GZip qualified as GZip
+import Data.ByteString.Lazy qualified as BS
+import Prelude
 
 foldEntryToPath :: Tar.Entry -> [String] -> [String]
 foldEntryToPath entry list = list ++ [show $ Tar.entryPath entry]
 
 -- Converts TAR errors to a string.
-entryFailMapper :: String -> [String]
-entryFailMapper err = [err]
+entryFailMapper :: Tar.FormatError -> [String]
+entryFailMapper _ = ["Invalid Tar Entry"]
 
 main :: IO ()
 main = do
-  fileContent <- fmap GZip.decompress $ BS.readFile "foo.tar.gz"
-  entries <- fmap Tar.read fileContent :: Tar.Entries
-  -- Here I don't know how to correctly apply fmap
-  entryPaths <- Tar.foldEntries foldEntryToPath [] entryFailMapper entries :: [String]
-  -- This should print ["a.txt", "b.txt", "c.txt"]
+  fileContent <- GZip.decompress <$> BS.readFile "foo.tar.gz"
+  let entries = Tar.read fileContent
+  let entryPaths = Tar.foldEntries foldEntryToPath [] entryFailMapper entries
   print entryPaths
