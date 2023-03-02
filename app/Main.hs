@@ -18,9 +18,11 @@ foldEntriesIgnoreFailure next done = fold
     fold Tar.Done = done
     fold (Tar.Fail _) = done
 
+-- Convert a entry to its filepath
 entryToPath :: Tar.Entry -> String
 entryToPath entry = show $ Tar.entryPath entry
 
+-- Is this Entry the location data we are looking to export
 entryIsLocationData :: Tar.Entry -> Bool
 entryIsLocationData e = case Tar.entryContent e of
   Tar.NormalFile _ _ -> doesPathMatch (Tar.entryPath e)
@@ -34,9 +36,6 @@ main = do
   fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
   let entries = Tar.read fileContent
   let entryList = foldEntriesIgnoreFailure (:) [] entries
-  -- let entryPaths = foldEntriesIgnoreFailure foldEntryToPath [] entries
-  -- let mappedEntryList = map entryToPath entryList
-  -- let mappedEntryList = map entryToPathDataTuple entryList
   let filteredEntryList = map entryToPath (filter entryIsLocationData entryList)
   print filteredEntryList
 
