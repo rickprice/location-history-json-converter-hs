@@ -1,0 +1,459 @@
+{
+    "locations": [
+        {
+            "latitudeE7": 435447657,
+            "longitudeE7": -802506978,
+            "accuracy": 20,
+            "activity": [
+                {
+                    "activity": [
+                        {
+                            "type": "ON_FOOT",
+                            "confidence": 60
+                        },
+                        {
+                            "type": "WALKING",
+                            "confidence": 60
+                        },
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 36
+                        },
+                        {
+                            "type": "ON_BICYCLE",
+                            "confidence": 4
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:33:56.658Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "EXITING_VEHICLE",
+                            "confidence": 100
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:33:47.570Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "TILTING",
+                            "confidence": 100
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:33:45.520Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 38
+                        },
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 35
+                        },
+                        {
+                            "type": "ON_FOOT",
+                            "confidence": 17
+                        },
+                        {
+                            "type": "WALKING",
+                            "confidence": 10
+                        },
+                        {
+                            "type": "RUNNING",
+                            "confidence": 8
+                        },
+                        {
+                            "type": "ON_BICYCLE",
+                            "confidence": 6
+                        },
+                        {
+                            "type": "STILL",
+                            "confidence": 4
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:33:34.381Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "TILTING",
+                            "confidence": 100
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:33:26.788Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "TILTING",
+                            "confidence": 100
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:33:21.299Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "STILL",
+                            "confidence": 64
+                        },
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 20
+                        },
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 13
+                        },
+                        {
+                            "type": "ON_FOOT",
+                            "confidence": 3
+                        },
+                        {
+                            "type": "WALKING",
+                            "confidence": 3
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:33:03.733Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 46
+                        },
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 27
+                        },
+                        {
+                            "type": "STILL",
+                            "confidence": 25
+                        },
+                        {
+                            "type": "ON_FOOT",
+                            "confidence": 2
+                        },
+                        {
+                            "type": "WALKING",
+                            "confidence": 2
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:32:12.245Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "TILTING",
+                            "confidence": 100
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:32:12.115Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 46
+                        },
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 38
+                        },
+                        {
+                            "type": "ON_FOOT",
+                            "confidence": 8
+                        },
+                        {
+                            "type": "STILL",
+                            "confidence": 8
+                        },
+                        {
+                            "type": "WALKING",
+                            "confidence": 8
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:28:28.757Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 62
+                        },
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 38
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:26:28.145Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 36
+                        },
+                        {
+                            "type": "STILL",
+                            "confidence": 29
+                        },
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 29
+                        },
+                        {
+                            "type": "ON_BICYCLE",
+                            "confidence": 6
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:24:23.261Z"
+                }
+            ],
+            "source": "WIFI",
+            "deviceTag": 629003707,
+            "timestamp": "2016-07-18T19:33:02.930Z"
+        },
+        {
+            "latitudeE7": 435447978,
+            "longitudeE7": -802506920,
+            "accuracy": 20,
+            "activity": [
+                {
+                    "activity": [
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 46
+                        },
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 35
+                        },
+                        {
+                            "type": "STILL",
+                            "confidence": 15
+                        },
+                        {
+                            "type": "ON_BICYCLE",
+                            "confidence": 2
+                        },
+                        {
+                            "type": "ON_FOOT",
+                            "confidence": 2
+                        },
+                        {
+                            "type": "WALKING",
+                            "confidence": 2
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:35:33.875Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 51
+                        },
+                        {
+                            "type": "ON_FOOT",
+                            "confidence": 20
+                        },
+                        {
+                            "type": "STILL",
+                            "confidence": 18
+                        },
+                        {
+                            "type": "WALKING",
+                            "confidence": 18
+                        },
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 8
+                        },
+                        {
+                            "type": "ON_BICYCLE",
+                            "confidence": 3
+                        },
+                        {
+                            "type": "RUNNING",
+                            "confidence": 3
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:35:05.877Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "TILTING",
+                            "confidence": 100
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:34:31.268Z"
+                }
+            ],
+            "source": "WIFI",
+            "deviceTag": 629003707,
+            "timestamp": "2016-07-18T19:35:37.419Z"
+        },
+        {
+            "latitudeE7": 435448054,
+            "longitudeE7": -802506934,
+            "accuracy": 20,
+            "source": "WIFI",
+            "deviceTag": 629003707,
+            "timestamp": "2016-07-18T19:36:33.244Z"
+        },
+        {
+            "latitudeE7": 435447956,
+            "longitudeE7": -802506961,
+            "accuracy": 20,
+            "activity": [
+                {
+                    "activity": [
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 50
+                        },
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 28
+                        },
+                        {
+                            "type": "STILL",
+                            "confidence": 14
+                        },
+                        {
+                            "type": "ON_FOOT",
+                            "confidence": 4
+                        },
+                        {
+                            "type": "WALKING",
+                            "confidence": 4
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:38:15.816Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 46
+                        },
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 46
+                        },
+                        {
+                            "type": "STILL",
+                            "confidence": 8
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:37:37.380Z"
+                }
+            ],
+            "source": "WIFI",
+            "deviceTag": 629003707,
+            "timestamp": "2016-07-18T19:37:40.997Z"
+        },
+        {
+            "latitudeE7": 435447696,
+            "longitudeE7": -802507038,
+            "accuracy": 20,
+            "activity": [
+                {
+                    "activity": [
+                        {
+                            "type": "TILTING",
+                            "confidence": 100
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:40:42.217Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 39
+                        },
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 37
+                        },
+                        {
+                            "type": "STILL",
+                            "confidence": 23
+                        },
+                        {
+                            "type": "ON_FOOT",
+                            "confidence": 2
+                        },
+                        {
+                            "type": "RUNNING",
+                            "confidence": 2
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:39:41.095Z"
+                }
+            ],
+            "source": "WIFI",
+            "deviceTag": 629003707,
+            "timestamp": "2016-07-18T19:39:44.761Z"
+        },
+        {
+            "latitudeE7": 435447631,
+            "longitudeE7": -802506961,
+            "accuracy": 20,
+            "activity": [
+                {
+                    "activity": [
+                        {
+                            "type": "TILTING",
+                            "confidence": 100
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:41:59.753Z"
+                },
+                {
+                    "activity": [
+                        {
+                            "type": "UNKNOWN",
+                            "confidence": 50
+                        },
+                        {
+                            "type": "ON_FOOT",
+                            "confidence": 19
+                        },
+                        {
+                            "type": "IN_VEHICLE",
+                            "confidence": 14
+                        },
+                        {
+                            "type": "ON_BICYCLE",
+                            "confidence": 12
+                        },
+                        {
+                            "type": "WALKING",
+                            "confidence": 10
+                        },
+                        {
+                            "type": "RUNNING",
+                            "confidence": 10
+                        },
+                        {
+                            "type": "STILL",
+                            "confidence": 6
+                        }
+                    ],
+                    "timestamp": "2016-07-18T19:40:59.616Z"
+                }
+            ],
+            "source": "WIFI",
+            "deviceTag": 629003707,
+            "timestamp": "2016-07-18T19:41:49.920Z"
+        }
+    ]
+}
