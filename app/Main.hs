@@ -18,25 +18,16 @@ foldEntriesIgnoreFailure next done = fold
     fold Tar.Done = done
     fold (Tar.Fail _) = done
 
--- filterEntriesIgnoreFailure :: (Tar.Entry -> Bool) -> [Tar.Entry] -> [Tar.Entry]
--- filterEntriesIgnoreFailure p (x : xs) = foldr (\y xs -> if p y then y : xs else xs) [] (x : xs)
-
--- foldEntryToPath :: Tar.Entry -> [String] -> [String]
--- foldEntryToPath entry list = list ++ [show $ Tar.entryPath entry]
-
 entryToPath :: Tar.Entry -> String
 entryToPath entry = show $ Tar.entryPath entry
-
--- entryToPathDataTuple :: Tar.Entry -> (String, String)
--- entryToPathDataTuple entry = (show $ Tar.entryPath entry, Tar.entryContent entry)
-
-doesPathMatch :: String -> Bool
-doesPathMatch p = "Takeout/Location History/Records.json" == p
 
 entryIsLocationData :: Tar.Entry -> Bool
 entryIsLocationData e = case Tar.entryContent e of
   Tar.NormalFile _ _ -> doesPathMatch (Tar.entryPath e)
   _ -> False
+  where
+    doesPathMatch :: String -> Bool
+    doesPathMatch p = "Takeout/Location History/Records.json" == p
 
 main :: IO ()
 main = do
