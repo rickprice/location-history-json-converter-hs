@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE Unsafe #-}
 
@@ -7,6 +8,9 @@ import Codec.Archive.Tar qualified as Tar
 -- import Codec.Archive.Tar.Entry qualified as Tar
 import Codec.Compression.GZip qualified as GZip
 import Data.ByteString.Lazy qualified as BS
+-- import GHC.RTS.Flags (DoCostCentres (CostCentresJSON))
+
+import Model
 import Prelude
 
 -- | This is like the standard 'foldr' function on lists, but for 'Entries'.
@@ -31,6 +35,8 @@ entryIsLocationData e = case Tar.entryContent e of
     doesPathMatch :: String -> Bool
     doesPathMatch p = "Takeout/Location History/Records.json" == p
 
+-- Code to process the incoming CostCentresJSON
+
 main :: IO ()
 main = do
   fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
@@ -38,5 +44,3 @@ main = do
   let entryList = foldEntriesIgnoreFailure (:) [] entries
   let filteredEntryList = map entryToPath (filter entryIsLocationData entryList)
   print filteredEntryList
-
--- print entryPaths

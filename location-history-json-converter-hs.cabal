@@ -49,6 +49,8 @@ executable location-history-json-converter-hs
     build-depends:    base ^>=4.16.4.0,
       tar,
       bytestring,
-      zlib
+      zlib,
+      aeson,
+      text
     hs-source-dirs:   app
     default-language: Haskell2010
