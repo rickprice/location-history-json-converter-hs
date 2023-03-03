@@ -46,12 +46,16 @@ entryIsLocationData e = case Tar.entryContent e of
     doesPathMatch :: String -> Bool
     doesPathMatch p = "Takeout/Location History/Records.json" == p
 
--- Code to process the incoming CostCentresJSON
+-- Code to process the incoming JSON
+decodeJSON bs = decodeJSON bs :: Model
 
 main :: IO ()
 main = do
   fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
   let entries = Tar.read fileContent
   let entryList = foldEntriesIgnoreFailure (:) [] entries
-  let filteredEntryList = map entryToByteString (filter entryIsLocationData entryList)
+  -- let filteredEntryList = map fromJSON (map entryToByteString (filter entryIsLocationData entryList))
+  -- let filteredEntryList = (map entryToByteString (filter entryIsLocationData entryList))
+  -- let filteredEntryList = map (id . entryToByteString) (filter entryIsLocationData entryList)
+  let filteredEntryList = map (decodeJSON . entryToByteString) (filter entryIsLocationData entryList)
   print filteredEntryList
