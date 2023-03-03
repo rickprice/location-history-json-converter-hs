@@ -7,6 +7,7 @@ module Model where
 import Data.Aeson (FromJSON (..), ToJSON (..), Value (..), object, (.:), (.=))
 import Data.Aeson.Types (prependFailure, typeMismatch)
 import Data.Text (Text)
+import Prelude
 
 data Locations = Locations
   { locationsAccuracy :: Int,

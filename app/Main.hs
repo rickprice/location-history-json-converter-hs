@@ -6,10 +6,13 @@ module Main (main) where
 
 import Codec.Archive.Tar qualified as Tar
 -- import Codec.Archive.Tar.Entry qualified as Tar
-import Codec.Compression.GZip qualified as GZip
-import Data.ByteString.Lazy qualified as BS
+
 -- import GHC.RTS.Flags (DoCostCentres (CostCentresJSON))
 
+import Codec.Archive.Tar.Index qualified as TAR
+import Codec.Compression.GZip qualified as GZip
+import Data.Aeson (fromJSON)
+import Data.ByteString.Lazy qualified as BS
 import Model
 import Prelude
 
@@ -22,9 +25,17 @@ foldEntriesIgnoreFailure next done = fold
     fold Tar.Done = done
     fold (Tar.Fail _) = done
 
--- Convert a entry to its filepath
+-- Convert an entry to its filepath
 entryToPath :: Tar.Entry -> String
 entryToPath entry = show $ Tar.entryPath entry
+
+-- Convert an entry to its ByteString
+entryToByteString :: Tar.Entry -> BS.ByteString
+entryToByteString entry = extractFileData (Tar.entryContent entry)
+  where
+    -- Extract the file data here case
+    extractFileData (Tar.NormalFile d _) = d
+    extractFileData _ = BS.empty
 
 -- Is this Entry the location data we are looking to export
 entryIsLocationData :: Tar.Entry -> Bool
@@ -42,5 +53,5 @@ main = do
   fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
   let entries = Tar.read fileContent
   let entryList = foldEntriesIgnoreFailure (:) [] entries
-  let filteredEntryList = map entryToPath (filter entryIsLocationData entryList)
+  let filteredEntryList = map entryToByteString (filter entryIsLocationData entryList)
   print filteredEntryList
