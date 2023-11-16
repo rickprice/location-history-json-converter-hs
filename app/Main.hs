@@ -5,14 +5,14 @@ module Main (main) where
 
 import Codec.Archive.Tar qualified as Tar
 
-import Codec.Archive.Tar.Index qualified as TAR
+import Codec.Archive.Tar.Index as TAR
 import Codec.Compression.GZip qualified as GZip
 import Data.Aeson
 import Data.ByteString.Lazy qualified as BS
 import Model
 import Prelude
 
-import Data.Text (Text, pack)
+import Data.Text(pack)
 
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
