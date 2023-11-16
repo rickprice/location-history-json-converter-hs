@@ -11,10 +11,12 @@ import Codec.Archive.Tar qualified as Tar
 
 import Codec.Archive.Tar.Index qualified as TAR
 import Codec.Compression.GZip qualified as GZip
-import Data.Aeson (fromJSON)
+import Data.Aeson (fromJSON, ToJSON (toJSON), encode)
 import Data.ByteString.Lazy qualified as BS
 import Model
 import Prelude
+
+import Data.Text (Text,pack)
 
 -- | This is like the standard 'foldr' function on lists, but for 'Entries'.
 -- Compared to 'foldEntries' it skips failures.
@@ -49,6 +51,17 @@ entryIsLocationData e = case Tar.entryContent e of
 -- Code to process the incoming JSON
 decodeJSON bs = decodeJSON bs :: Model
 
+-- data Locations = Locations
+--   { locationsAccuracy :: Int,
+--     locationsTimestamp :: Text,
+--     locationsLongitudeE7 :: Int,
+--     locationsLatitudeE7 :: Int
+--   }
+
+
+location = Locations 1 (pack "test") 2 3
+model = Model [location]
+
 main :: IO ()
 main = do
   fileContent <- GZip.decompress <$> BS.readFile "takeout.tgz"
@@ -56,4 +69,8 @@ main = do
   let entryList = foldEntriesIgnoreFailure (:) [] entries
   -- let filteredEntryList = map (id . entryToByteString) (filter entryIsLocationData entryList)
   let filteredEntryList = map (decodeJSON . entryToByteString) (filter entryIsLocationData entryList)
-  print filteredEntryList
+  let singleEntry = take 1 filteredEntryList
+  -- print (singleEntry)
+  -- print (model)
+  print (encode (toJSON model))
+  print ("finished")
