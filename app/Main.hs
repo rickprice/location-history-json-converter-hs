@@ -1,6 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE Unsafe #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module Main (main) where
 
@@ -11,7 +12,7 @@ import Codec.Archive.Tar qualified as Tar
 
 import Codec.Archive.Tar.Index qualified as TAR
 import Codec.Compression.GZip qualified as GZip
-import Data.Aeson (fromJSON, ToJSON (toJSON), encode)
+import Data.Aeson (fromJSON, ToJSON (toJSON), encode, eitherDecode)
 import Data.ByteString.Lazy qualified as BS
 import Model
 import Prelude
@@ -59,8 +60,8 @@ decodeJSON bs = decodeJSON bs :: Model
 --   }
 
 
-location = Locations 1 (pack "test") 2 3
-model = Model [location]
+-- location = Locations 1 (pack "test") 2 3
+-- model = Model [location]
 
 main :: IO ()
 main = do
@@ -68,9 +69,24 @@ main = do
   let entries = Tar.read fileContent
   let entryList = foldEntriesIgnoreFailure (:) [] entries
   -- let filteredEntryList = map (id . entryToByteString) (filter entryIsLocationData entryList)
-  let filteredEntryList = map (decodeJSON . entryToByteString) (filter entryIsLocationData entryList)
-  let singleEntry = take 1 filteredEntryList
+  -- let filteredEntryList = map (decodeJSON . entryToByteString) (filter entryIsLocationData entryList)
+  -- let singleEntry = take 1 filteredEntryList
   -- print (singleEntry)
   -- print (model)
-  print (encode (toJSON model))
+  -- print (encode (toJSON model))
+  let locationRecordFiles = map (entryToByteString) (filter entryIsLocationData entryList)
+  let locationRecordFile = pure (head locationRecordFiles)
+  -- let decodedJSON = decodeJSON locationRecordFile
+  print ("starting")
+  -- Get JSON data and decode it
+  -- d <- (eitherDecode <$> locationRecordFile) :: IO (Either String [Model])
+  d <- (eitherDecode <$> locationRecordFile) :: IO (Either String Model)
+  -- If d is Left, the JSON was malformed.
+  -- In that case, we report the error.
+  -- Otherwise, we perform the operation of
+  -- our choice. In this case, just print it.
+  case d of
+    Left err -> putStrLn err
+    Right ps -> print ps
+
   print ("finished")
