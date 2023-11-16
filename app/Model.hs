@@ -2,7 +2,7 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
 
-module Model where
+module Model (Location, LocationMaybe, Model) where
 
 import Data.Aeson
 import Data.Text (Text)
@@ -10,6 +10,13 @@ import GHC.Generics
 import Prelude
 
 data Location = Location
+    { timestamp :: !Text
+    , longitudeE7 :: Int
+    , latitudeE7 :: Int
+    }
+    deriving (Show, Eq, Ord, Generic)
+
+data LocationMaybe = LocationMaybe
     { timestamp :: Maybe Text
     , longitudeE7 :: Maybe Int
     , latitudeE7 :: Maybe Int
@@ -17,11 +24,11 @@ data Location = Location
     deriving (Show, Eq, Ord, Generic)
 
 data Model = Model
-    { locations :: [Location]
+    { locations :: [LocationMaybe]
     }
     deriving (Show, Eq, Ord, Generic)
 
-instance ToJSON Location
-instance FromJSON Location
+instance ToJSON LocationMaybe
+instance FromJSON LocationMaybe
 instance ToJSON Model
 instance FromJSON Model
