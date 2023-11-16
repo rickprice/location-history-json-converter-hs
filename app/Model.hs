@@ -1,12 +1,10 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE Unsafe #-}
 
 module Model where
 
-import Data.Aeson (FromJSON (..), ToJSON (..), Value (..), object, (.:), (.=))
-import Data.Aeson.Types (prependFailure, typeMismatch)
+import Data.Aeson
 import Data.Text (Text)
 import GHC.Generics
 import Prelude

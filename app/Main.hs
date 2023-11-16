@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE Unsafe #-}
 
@@ -6,13 +5,9 @@ module Main (main) where
 
 import Codec.Archive.Tar qualified as Tar
 
--- import Codec.Archive.Tar.Entry qualified as Tar
-
--- import GHC.RTS.Flags (DoCostCentres (CostCentresJSON))
-
 import Codec.Archive.Tar.Index qualified as TAR
 import Codec.Compression.GZip qualified as GZip
-import Data.Aeson (ToJSON (toJSON), eitherDecode, encode, fromJSON)
+import Data.Aeson
 import Data.ByteString.Lazy qualified as BS
 import Model
 import Prelude
