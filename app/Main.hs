@@ -3,16 +3,13 @@
 
 module Main (main) where
 
-import Codec.Archive.Tar qualified as Tar
+import Codec.Archive.Tar as Tar
 
-import Codec.Archive.Tar.Index as TAR
-import Codec.Compression.GZip qualified as GZip
+import Codec.Compression.GZip as GZip
 import Data.Aeson
 import Data.ByteString.Lazy qualified as BS
 import Model
 import Prelude
-
-import Data.Text(pack)
 
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
@@ -45,7 +42,7 @@ entryIsLocationData e = case Tar.entryContent e of
     doesPathMatch :: String -> Bool
     doesPathMatch p = "Takeout/Location History/Records.json" == p
 
--- location = Locations 1 (pack "test") 2 3
+-- location = Locations 1 (Text.pack "test") 2 3
 -- model = Model [location]
 
 main :: IO ()
