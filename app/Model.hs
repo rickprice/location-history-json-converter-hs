@@ -1,6 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
+{-# LANGUAGE DerivingStrategies #-}
 
 module Model (Location, LocationMaybe, Model) where
 
@@ -14,19 +15,22 @@ data Location = Location
     , longitudeE7 :: Int
     , latitudeE7 :: Int
     }
-    deriving (Show, Eq, Ord, Generic)
+    deriving stock (Show, Eq, Ord)
+    deriving stock (Generic)
 
 data LocationMaybe = LocationMaybe
     { timestamp :: Maybe Text
     , longitudeE7 :: Maybe Int
     , latitudeE7 :: Maybe Int
     }
-    deriving (Show, Eq, Ord, Generic)
+    deriving stock (Show, Eq, Ord)
+    deriving stock (Generic)
 
 data Model = Model
     { locations :: [LocationMaybe]
     }
-    deriving (Show, Eq, Ord, Generic)
+    deriving stock (Show, Eq, Ord)
+    deriving stock (Generic)
 
 instance ToJSON LocationMaybe
 instance FromJSON LocationMaybe
