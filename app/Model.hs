@@ -12,10 +12,9 @@ import Prelude
 import GHC.Generics
 
 data Location = Location
-  { accuracy :: Int,
-    timestamp :: Text,
-    longitudeE7 :: Int,
-    latitudeE7 :: Int
+  { timestamp :: Maybe Text,
+    longitudeE7 :: Maybe Int,
+    latitudeE7 :: Maybe Int
   }
   deriving (Show, Eq, Ord, Generic)
 
