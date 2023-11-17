@@ -8,12 +8,13 @@ import Codec.Archive.Tar as Tar
 import Codec.Compression.GZip as GZip
 import Data.Aeson
 import Data.ByteString.Lazy qualified as BS
-import Model
-import Prelude
-import System.Exit
 import Data.Time.Clock
+import Model
+import System.Exit
+import Prelude
+
 -- import Data.Time
-import Control.Monad(mfilter)
+import Control.Monad (mfilter)
 
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
@@ -56,7 +57,7 @@ main = do
     let entryList = foldEntriesIgnoreFailure (:) [] entries
     let locationRecordFiles = map entryToByteString (filter entryIsLocationData entryList)
     let locationRecordFile = pure (head locationRecordFiles)
-    print "starting"
+    -- print "starting"
     -- Get JSON data and decode it
     d <- (eitherDecode <$> locationRecordFile) :: IO (Either String Model)
     -- If d is Left, the JSON was malformed.
@@ -65,19 +66,22 @@ main = do
     -- our choice. In this case, just print it.
     case d of
         Left err -> die err
-        Right ps -> do 
+        Right ps -> do
             now <- getCurrentTime
             let weekAgo = addUTCTime (-nominalDay * 7) now
             let locationList = locations ps
             let locationListFiltered = filter isComplete locationList
-            let locationListFilteredDate = mfilter (\x -> (timestamp x) > Just weekAgo) locationList
-            let lengthOriginal = length locationList
-            let lengthFiltered = length locationListFiltered
-            let lengthFilteredDate = length locationListFilteredDate
+            let locationListFilteredDate = mfilter (\x -> timestamp x > Just weekAgo) locationList
+            -- let lengthOriginal = length locationList
+            -- let lengthFiltered = length locationListFiltered
+            -- let lengthFilteredDate = length locationListFilteredDate
             -- print locationListFiltered
             -- print locationListFilteredDate
-            print lengthOriginal
-            print lengthFiltered
-            print lengthFilteredDate
+            -- print lengthOriginal
+            -- print lengthFiltered
+            -- print lengthFilteredDate
+            putStrLn xmlGISHeader
+            mapM_ (putStrLn . toString) locationListFilteredDate
+            putStrLn xmlGISFooter
 
-    print "finished"
+    -- print "finished"

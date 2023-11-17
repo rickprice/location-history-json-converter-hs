@@ -1,15 +1,15 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
-{-# LANGUAGE DerivingStrategies #-}
 
-module Model (LocationMaybe, Model, locations, timestamp, isComplete) where
+module Model (LocationMaybe, Model, locations, timestamp, isComplete, xmlGISHeader, toString, xmlGISFooter) where
 
 import Data.Aeson
 import Data.Text (Text)
+import Data.Time.Clock
 import GHC.Generics
 import Prelude
-import Data.Time.Clock
 
 -- data Location = Location
 --     { timestamp :: !Text
@@ -38,14 +38,31 @@ instance FromJSON LocationMaybe
 instance ToJSON Model
 instance FromJSON Model
 
-
 isComplete :: LocationMaybe -> Bool
-isComplete x = case (t,lo,la) of
-                (Nothing,_,_) -> False
-                (_,Nothing,_) -> False
-                (_,_,Nothing) -> False
-                (_,_,_) -> True
-                where
-                    t = timestamp x
-                    lo =longitudeE7 x
-                    la =latitudeE7 x
+isComplete x = case (t, lo, la) of
+    (Nothing, _, _) -> False
+    (_, Nothing, _) -> False
+    (_, _, Nothing) -> False
+    (_, _, _) -> True
+  where
+    t = timestamp x
+    lo = longitudeE7 x
+    la = latitudeE7 x
+
+xmlGISHeader :: String
+xmlGISHeader = "<?xml Nothing -version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
+toString :: LocationMaybe -> String
+toString x =
+    "<Placemark>"
+        ++ "<TimeStamp><when>"
+        ++ maybe "" show (timestamp x)
+        ++ "</when></TimeStamp>"
+        ++ "<Point><coordinates>"
+        ++ maybe "" show (longitudeE7 x)
+        ++ ","
+        ++ maybe "" show (latitudeE7 x)
+        ++ "</coordinates></Point>"
+        ++ "</Placemark>"
+
+xmlGISFooter :: String
+xmlGISFooter = "</Document></kml>"
