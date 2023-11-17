@@ -63,6 +63,8 @@ main = do
     -- our choice. In this case, just print it.
     case d of
         Left err -> die err
-        Right ps -> print (locations ps)
+        Right ps -> do 
+            let locationList = locations ps
+            print locationList
 
     print "finished"
