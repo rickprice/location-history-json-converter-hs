@@ -10,6 +10,8 @@ import Data.Aeson
 import Data.ByteString.Lazy qualified as BS
 import Model
 import Prelude
+import System.Exit
+
 
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
@@ -60,7 +62,7 @@ main = do
     -- Otherwise, we perform the operation of
     -- our choice. In this case, just print it.
     case d of
-        Left err -> putStrLn err
+        Left err -> die err
         Right ps -> print (locations ps)
 
     print "finished"
