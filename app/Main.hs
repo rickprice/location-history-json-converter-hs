@@ -11,7 +11,9 @@ import Data.ByteString.Lazy qualified as BS
 import Model
 import Prelude
 import System.Exit
-
+import Data.Time.Clock
+-- import Data.Time
+import Control.Monad(mfilter)
 
 {- | This is like the standard 'foldr' function on lists, but for 'Entries'.
  Compared to 'foldEntries' it skips failures.
@@ -64,11 +66,18 @@ main = do
     case d of
         Left err -> die err
         Right ps -> do 
+            now <- getCurrentTime
+            let weekAgo = addUTCTime (-nominalDay * 7) now
             let locationList = locations ps
             let locationListFiltered = filter isComplete locationList
+            let locationListFilteredDate = mfilter (\x -> (timestamp x) > Just weekAgo) locationList
             let lengthOriginal = length locationList
             let lengthFiltered = length locationListFiltered
+            let lengthFilteredDate = length locationListFilteredDate
+            -- print locationListFiltered
+            -- print locationListFilteredDate
             print lengthOriginal
             print lengthFiltered
+            print lengthFilteredDate
 
     print "finished"
