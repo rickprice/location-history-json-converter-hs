@@ -35,7 +35,7 @@ executable location-history-json-converter-hs
         -Wno-all-missed-specialisations
         -Wno-unsafe
         -Wno-safe
-        -Wno-missing-local-signatures
+--        -Wno-missing-local-signatures
         -Wno-monomorphism-restriction
         -O2
 
