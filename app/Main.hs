@@ -61,6 +61,6 @@ main = do
     -- our choice. In this case, just print it.
     case d of
         Left err -> putStrLn err
-        Right ps -> print ps
+        Right ps -> print (locations ps)
 
     print "finished"

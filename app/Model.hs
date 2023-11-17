@@ -3,7 +3,7 @@
 {-# LANGUAGE Unsafe #-}
 {-# LANGUAGE DerivingStrategies #-}
 
-module Model (Location, LocationMaybe, Model) where
+module Model (Location, LocationMaybe, Model, locations) where
 
 import Data.Aeson
 import Data.Text (Text)
