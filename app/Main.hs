@@ -65,6 +65,10 @@ main = do
         Left err -> die err
         Right ps -> do 
             let locationList = locations ps
-            print locationList
+            let locationListFiltered = filter isComplete locationList
+            let lengthOriginal = length locationList
+            let lengthFiltered = length locationListFiltered
+            print lengthOriginal
+            print lengthFiltered
 
     print "finished"
