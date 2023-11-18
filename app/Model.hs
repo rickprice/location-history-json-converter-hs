@@ -3,26 +3,21 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
 
-module Model (LocationMaybe, Model, locations, timestamp, isComplete, xmlGISHeader, toString, xmlGISFooter) where
+module Model (LocationMaybe, Model, locations, timestamp, isComplete, toXMLString) where
 
 import Data.Aeson
-import Data.Text (Text)
+
+-- import Data.Text (Text)
 import Data.Time.Clock
 import GHC.Generics
 import Prelude
-
--- data Location = Location
---     { timestamp :: !Text
---     , longitudeE7 :: Int
---     , latitudeE7 :: Int
---     }
---     deriving stock (Show, Eq, Ord)
---     deriving stock (Generic)
 
 data LocationMaybe = LocationMaybe
     { timestamp :: Maybe UTCTime
     , longitudeE7 :: Maybe Int
     , latitudeE7 :: Maybe Int
+    , altitude :: Maybe Int
+    , accuracy :: Maybe Int
     }
     deriving stock (Show, Eq, Ord)
     deriving stock (Generic)
@@ -51,8 +46,9 @@ isComplete x = case (t, lo, la) of
 
 xmlGISHeader :: String
 xmlGISHeader = "<?xml Nothing -version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
-toString :: LocationMaybe -> String
-toString x =
+
+toGISBody :: LocationMaybe -> String
+toGISBody x =
     "<Placemark>"
         ++ "<TimeStamp><when>"
         ++ maybe "" show (timestamp x)
@@ -66,3 +62,9 @@ toString x =
 
 xmlGISFooter :: String
 xmlGISFooter = "</Document></kml>"
+
+toXMLString :: [LocationMaybe] -> String
+toXMLString x =
+    xmlGISHeader
+        ++ concatMap toGISBody x
+        ++ xmlGISFooter

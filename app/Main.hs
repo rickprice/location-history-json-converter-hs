@@ -71,7 +71,7 @@ main = do
             let weekAgo = addUTCTime (-nominalDay * 7) now
             let locationList = locations ps
             let locationListFiltered = filter isComplete locationList
-            let locationListFilteredDate = mfilter (\x -> timestamp x > Just weekAgo) locationList
+            let locationListFilteredDate = mfilter (\x -> timestamp x > Just weekAgo) locationListFiltered
             -- let lengthOriginal = length locationList
             -- let lengthFiltered = length locationListFiltered
             -- let lengthFilteredDate = length locationListFilteredDate
@@ -80,8 +80,6 @@ main = do
             -- print lengthOriginal
             -- print lengthFiltered
             -- print lengthFilteredDate
-            putStrLn xmlGISHeader
-            mapM_ (putStrLn . toString) locationListFilteredDate
-            putStrLn xmlGISFooter
+            putStrLn $ toXMLString locationListFilteredDate
 
-    -- print "finished"
+-- print "finished"
