@@ -45,11 +45,11 @@ isComplete x = case (t, lo, la) of
     la = latitudeE7 x
 
 xmlGISHeader :: String
-xmlGISHeader = "<?xml Nothing -version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
+xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
 
 toData :: String -> Maybe Int -> String
 toData _ Nothing = ""
-toData name (Just x)  = "<Data name=" ++ name ++ "><value>" ++ show x ++ "</value></Data>"
+toData name (Just x)  = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
 
 optionals :: Location -> String
 optionals x = mconcat [toData "accuracy" (accuracy x), toData "altitude" (altitude x) ]
