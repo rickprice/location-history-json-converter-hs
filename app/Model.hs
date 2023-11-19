@@ -3,7 +3,7 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE Unsafe #-}
 
-module Model (LocationMaybe, Model, locations, timestamp, isComplete, toXMLString) where
+module Model (Location, Model, locations, timestamp, isComplete, toXMLString) where
 
 import Data.Aeson
 
@@ -12,7 +12,7 @@ import Data.Time.Clock
 import GHC.Generics
 import Prelude
 
-data LocationMaybe = LocationMaybe
+data Location = Location
     { timestamp :: Maybe UTCTime
     , longitudeE7 :: Maybe Int
     , latitudeE7 :: Maybe Int
@@ -23,17 +23,17 @@ data LocationMaybe = LocationMaybe
     deriving stock (Generic)
 
 data Model = Model
-    { locations :: [LocationMaybe]
+    { locations :: [Location]
     }
     deriving stock (Show, Eq, Ord)
     deriving stock (Generic)
 
-instance ToJSON LocationMaybe
-instance FromJSON LocationMaybe
+instance ToJSON Location
+instance FromJSON Location
 instance ToJSON Model
 instance FromJSON Model
 
-isComplete :: LocationMaybe -> Bool
+isComplete :: Location -> Bool
 isComplete x = case (t, lo, la) of
     (Nothing, _, _) -> False
     (_, Nothing, _) -> False
@@ -47,12 +47,23 @@ isComplete x = case (t, lo, la) of
 xmlGISHeader :: String
 xmlGISHeader = "<?xml Nothing -version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
 
-toGISBody :: LocationMaybe -> String
+toData :: String -> Maybe Int -> String
+toData _ Nothing = ""
+toData name (Just x)  = "<Data name=" ++ name ++ "><value>" ++ show x ++ "</value></Data>"
+
+optionals :: Location -> String
+optionals x = mconcat [toData "accuracy" (accuracy x), toData "altitude" (altitude x) ]
+
+extendedData :: String -> String
+extendedData x = if null x then "" else "<ExtendedData>" ++ x ++ "</ExtendedData>"
+
+toGISBody :: Location -> String
 toGISBody x =
     "<Placemark>"
         ++ "<TimeStamp><when>"
         ++ maybe "" show (timestamp x)
         ++ "</when></TimeStamp>"
+        ++ extendedData ( optionals x)
         ++ "<Point><coordinates>"
         ++ maybe "" show (longitudeE7 x)
         ++ ","
@@ -63,7 +74,7 @@ toGISBody x =
 xmlGISFooter :: String
 xmlGISFooter = "</Document></kml>"
 
-toXMLString :: [LocationMaybe] -> String
+toXMLString :: [Location] -> String
 toXMLString x =
     xmlGISHeader
         ++ concatMap toGISBody x
