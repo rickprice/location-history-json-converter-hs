@@ -11,6 +11,7 @@ import Data.Aeson
 import Data.Time.Clock
 import GHC.Generics
 import Prelude
+import Data.List(foldl')
 
 data Location = Location
     { timestamp :: Maybe UTCTime
@@ -44,6 +45,12 @@ isComplete x = case (t, lo, la) of
     lo = longitudeE7 x
     la = latitudeE7 x
 
+-- lastN' n xs = foldl' (const . drop 1) <*> drop n
+
+convertLocation :: Int -> String
+convertLocation x = reverse (start ++ "." ++ end) where
+    (start,end) = splitAt 7 (reverse $ show x )
+
 xmlGISHeader :: String
 xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
 
@@ -65,9 +72,9 @@ toGISBody x =
         ++ "</when></TimeStamp>"
         ++ extendedData ( optionals x)
         ++ "<Point><coordinates>"
-        ++ maybe "" show (longitudeE7 x)
+        ++ maybe "" convertLocation (longitudeE7 x)
         ++ ","
-        ++ maybe "" show (latitudeE7 x)
+        ++ maybe "" convertLocation (latitudeE7 x)
         ++ "</coordinates></Point>"
         ++ "</Placemark>"
 
