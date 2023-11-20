@@ -11,7 +11,8 @@ import Data.Aeson
 import Data.Time.Clock
 import GHC.Generics
 import Prelude
-import Data.List(foldl')
+import Data.Time.Format.ISO8601
+-- import Data.List(foldl')
 
 data Location = Location
     { timestamp :: Maybe UTCTime
@@ -68,7 +69,7 @@ toGISBody :: Location -> String
 toGISBody x =
     "<Placemark>"
         ++ "<TimeStamp><when>"
-        ++ maybe "" show (timestamp x)
+        ++ maybe "" iso8601Show (timestamp x)
         ++ "</when></TimeStamp>"
         ++ extendedData ( optionals x)
         ++ "<Point><coordinates>"
