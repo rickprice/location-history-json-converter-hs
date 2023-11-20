@@ -69,9 +69,9 @@ main = do
         Right ps -> do
             now <- getCurrentTime
             let twoWeekAgo = addUTCTime (-nominalDay * 7 * 2) now
-            let locationList = locations ps
-            let locationListFiltered = filter isComplete locationList
-            let locationListFilteredDate = mfilter (\x -> timestamp x > Just twoWeekAgo) locationListFiltered
+            -- let locationList = locations ps
+            -- let locationListFilteredDropJunk = filter isComplete locationList
+            let locationListFilteredDate = mfilter (\x -> (timestamp x > Just twoWeekAgo) && isComplete x ) $ locations ps
             -- let lengthOriginal = length locationList
             -- let lengthFiltered = length locationListFiltered
             -- let lengthFilteredDate = length locationListFilteredDate
