@@ -9,9 +9,10 @@ import Data.Aeson
 
 -- import Data.Text (Text)
 import Data.Time.Clock
+import Data.Time.Format.ISO8601
 import GHC.Generics
 import Prelude
-import Data.Time.Format.ISO8601
+
 -- import Data.List(foldl')
 
 data Location = Location
@@ -24,7 +25,7 @@ data Location = Location
     deriving stock (Show, Eq, Ord)
     deriving stock (Generic)
 
-data Model = Model
+newtype Model = Model
     { locations :: [Location]
     }
     deriving stock (Show, Eq, Ord)
@@ -49,18 +50,19 @@ isComplete x = case (t, lo, la) of
 -- lastN' n xs = foldl' (const . drop 1) <*> drop n
 
 convertLocation :: Int -> String
-convertLocation x = reverse (start ++ "." ++ end) where
-    (start,end) = splitAt 7 (reverse $ show x )
+convertLocation x = reverse (start ++ "." ++ end)
+  where
+    (start, end) = splitAt 7 (reverse $ show x)
 
 xmlGISHeader :: String
 xmlGISHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><name>Location History</name>"
 
 toData :: String -> Maybe Int -> String
 toData _ Nothing = ""
-toData name (Just x)  = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
+toData name (Just x) = "<Data name=\"" ++ name ++ "\"><value>" ++ show x ++ "</value></Data>"
 
 optionals :: Location -> String
-optionals x = mconcat [toData "accuracy" (accuracy x), toData "altitude" (altitude x) ]
+optionals x = mconcat [toData "accuracy" (accuracy x), toData "altitude" (altitude x)]
 
 extendedData :: String -> String
 extendedData x = if null x then "" else "<ExtendedData>" ++ x ++ "</ExtendedData>"
@@ -71,7 +73,7 @@ toGISBody x =
         ++ "<TimeStamp><when>"
         ++ maybe "" iso8601Show (timestamp x)
         ++ "</when></TimeStamp>"
-        ++ extendedData ( optionals x)
+        ++ extendedData (optionals x)
         ++ "<Point><coordinates>"
         ++ maybe "" convertLocation (longitudeE7 x)
         ++ ","
