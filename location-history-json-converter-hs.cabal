@@ -39,6 +39,9 @@ executable location-history-json-converter-hs
         -Wno-monomorphism-restriction
         -O2
         -threaded
+        -fprof-auto
+        -prof
+        "-with-rtsopts=-N -p -s -hT"
 
     main-is:          Main.hs
 
